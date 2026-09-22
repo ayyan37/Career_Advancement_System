@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .card {
+            max-width: 550px;
+            margin: 70px auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 18px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 28px;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>Student Details</h1>
+
+    <p class="subtitle">
+        Tell us a little about yourself before starting the career test.
+    </p>
+
+    <label for="name">Full Name</label>
+    <input type="text" id="name" placeholder="Enter your name">
+
+    <label for="course">Course / Education</label>
+    <select id="course">
+        <option value="">Select your education</option>
+        <option>BSc IT</option>
+        <option>BCA</option>
+        <option>BSc Computer Science</option>
+        <option>BTech / BE</option>
+        <option>Other</option>
+    </select>
+
+    <label for="interest">Main Interest</label>
+    <select id="interest">
+        <option value="">Select your interest</option>
+        <option>Programming</option>
+        <option>Data & Analytics</option>
+        <option>Web Development</option>
+        <option>Design</option>
+        <option>Cyber Security</option>
+    </select>
+
+    <button onclick="startTest()">Continue to Test</button>
+
+</div>
+
+<script>
+function startTest() {
+    const name = document.getElementById("name").value;
+    const course = document.getElementById("course").value;
+    const interest = document.getElementById("interest").value;
+
+    if (!name || !course || !interest) {
+        alert("Please fill all the details.");
+        return;
+    }
+
+    window.location.href = "/test";
+}
+</script>
+
+</body>
+</html>

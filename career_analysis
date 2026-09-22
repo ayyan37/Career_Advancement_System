@@ -1,0 +1,202 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "e3a911c6-7369-49b1-9988-8377b2e27877",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Career Analysis System Started\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Career Analysis System\n",
+    "\n",
+    "print(\"Career Analysis System Started\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "c1c45830-bb5c-4e39-b1f0-606010427ae1",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "{'Programming': 0,\n",
+       " 'Data Analytics': 0,\n",
+       " 'Web Development': 0,\n",
+       " 'UI/UX Design': 0,\n",
+       " 'Cyber Security': 0}"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Career categories\n",
+    "\n",
+    "career_categories = {\n",
+    "    \"Programming\": 0,\n",
+    "    \"Data Analytics\": 0,\n",
+    "    \"Web Development\": 0,\n",
+    "    \"UI/UX Design\": 0,\n",
+    "    \"Cyber Security\": 0\n",
+    "}\n",
+    "\n",
+    "career_categories"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "e6250d47-e7a1-4199-8ac5-c356741679dc",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Questions loaded: 3\n"
+     ]
+    }
+   ],
+   "source": [
+    "questions = [\n",
+    "    {\n",
+    "        \"question\": \"Which activity do you enjoy the most?\",\n",
+    "        \"options\": {\n",
+    "            \"A\": (\"Writing code\", \"Programming\"),\n",
+    "            \"B\": (\"Working with numbers and data\", \"Data Analytics\"),\n",
+    "            \"C\": (\"Creating websites\", \"Web Development\"),\n",
+    "            \"D\": (\"Designing interfaces\", \"UI/UX Design\")\n",
+    "        }\n",
+    "    },\n",
+    "    {\n",
+    "        \"question\": \"Which subject interests you the most?\",\n",
+    "        \"options\": {\n",
+    "            \"A\": (\"Programming\", \"Programming\"),\n",
+    "            \"B\": (\"Statistics\", \"Data Analytics\"),\n",
+    "            \"C\": (\"Web Technologies\", \"Web Development\"),\n",
+    "            \"D\": (\"Graphic Design\", \"UI/UX Design\")\n",
+    "        }\n",
+    "    },\n",
+    "    {\n",
+    "        \"question\": \"Which area would you like to learn?\",\n",
+    "        \"options\": {\n",
+    "            \"A\": (\"Ethical Hacking\", \"Cyber Security\"),\n",
+    "            \"B\": (\"Python Programming\", \"Programming\"),\n",
+    "            \"C\": (\"Data Analysis\", \"Data Analytics\"),\n",
+    "            \"D\": (\"Web Design\", \"UI/UX Design\")\n",
+    "        }\n",
+    "    }\n",
+    "]\n",
+    "\n",
+    "print(\"Questions loaded:\", len(questions))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "ba68e36c-5b15-44ba-b9ca-210241506c39",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "{'Programming': 2, 'Data Analytics': 1, 'Web Development': 0, 'UI/UX Design': 0, 'Cyber Security': 0}\n"
+     ]
+    }
+   ],
+   "source": [
+    "def calculate_score(answers):\n",
+    "    scores = career_categories.copy()\n",
+    "\n",
+    "    for answer in answers:\n",
+    "        if answer in scores:\n",
+    "            scores[answer] += 1\n",
+    "\n",
+    "    return scores\n",
+    "\n",
+    "\n",
+    "# Test\n",
+    "test_answers = [\n",
+    "    \"Programming\",\n",
+    "    \"Data Analytics\",\n",
+    "    \"Programming\"\n",
+    "]\n",
+    "\n",
+    "scores = calculate_score(test_answers)\n",
+    "\n",
+    "print(scores)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "50007ca2-0a08-46b2-9ece-4f1e7ef80e91",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Recommended Career: Programming\n",
+      "Score: 2\n"
+     ]
+    }
+   ],
+   "source": [
+    "def recommend_career(scores):\n",
+    "    recommended_career = max(scores, key=scores.get)\n",
+    "    highest_score = scores[recommended_career]\n",
+    "\n",
+    "    return recommended_career, highest_score\n",
+    "\n",
+    "\n",
+    "career, score = recommend_career(scores)\n",
+    "\n",
+    "print(\"Recommended Career:\", career)\n",
+    "print(\"Score:\", score)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3f4b7ce9-98b3-4b6d-9f08-31e9bb1cade2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.14.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

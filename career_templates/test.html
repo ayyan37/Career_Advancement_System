@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Career Test</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 50px auto;
+            padding: 35px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-text {
+            color: #666;
+            font-size: 15px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 35px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 6.67%;
+            background: #2563eb;
+            transition: 0.3s;
+        }
+
+        h1 {
+            font-size: 25px;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            background: #f0f5ff;
+            border-color: #2563eb;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 13px 25px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top">
+
+        <strong>Career Test</strong>
+
+        <span class="progress-text" id="progressText">
+            Question 1 / 15
+        </span>
+
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <h1 id="question"></h1>
+
+    <div id="options"></div>
+
+    <button onclick="nextQuestion()">Next</button>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+    {
+        question: "Which activity do you enjoy the most?",
+        options: [
+            ["Writing code", "Programming"],
+            ["Working with numbers and data", "Data Analytics"],
+            ["Creating websites", "Web Development"],
+            ["Designing interfaces", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which subject interests you the most?",
+        options: [
+            ["Programming", "Programming"],
+            ["Statistics", "Data Analytics"],
+            ["Web Technologies", "Web Development"],
+            ["Graphic Design", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which area would you like to learn?",
+        options: [
+            ["Ethical Hacking", "Cyber Security"],
+            ["Python Programming", "Programming"],
+            ["Data Analysis", "Data Analytics"],
+            ["Web Design", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "What type of work do you prefer?",
+        options: [
+            ["Building software", "Programming"],
+            ["Analyzing information", "Data Analytics"],
+            ["Building websites", "Web Development"],
+            ["Creating visual designs", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which technology interests you most?",
+        options: [
+            ["Python / Java", "Programming"],
+            ["Excel / Power BI", "Data Analytics"],
+            ["HTML / CSS / JavaScript", "Web Development"],
+            ["Figma / Design Tools", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "What do you enjoy solving?",
+        options: [
+            ["Programming problems", "Programming"],
+            ["Data and numerical problems", "Data Analytics"],
+            ["Website-related problems", "Web Development"],
+            ["Visual and design problems", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which skill would you like to improve?",
+        options: [
+            ["Coding", "Programming"],
+            ["Data Analysis", "Data Analytics"],
+            ["Web Development", "Web Development"],
+            ["Creative Design", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which tool would you like to learn?",
+        options: [
+            ["Python", "Programming"],
+            ["Power BI", "Data Analytics"],
+            ["JavaScript", "Web Development"],
+            ["Figma", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which type of project would you prefer?",
+        options: [
+            ["Software application", "Programming"],
+            ["Data dashboard", "Data Analytics"],
+            ["Online website", "Web Development"],
+            ["Mobile/web interface design", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which task sounds most interesting?",
+        options: [
+            ["Writing a program", "Programming"],
+            ["Finding patterns in data", "Data Analytics"],
+            ["Building a webpage", "Web Development"],
+            ["Designing a user interface", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which career area interests you?",
+        options: [
+            ["Software Developer", "Programming"],
+            ["Data Analyst", "Data Analytics"],
+            ["Web Developer", "Web Development"],
+            ["UI/UX Designer", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which type of thinking do you prefer?",
+        options: [
+            ["Logical thinking", "Programming"],
+            ["Analytical thinking", "Data Analytics"],
+            ["Technical and creative thinking", "Web Development"],
+            ["Visual thinking", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "What would you enjoy creating?",
+        options: [
+            ["Applications", "Programming"],
+            ["Reports and dashboards", "Data Analytics"],
+            ["Websites", "Web Development"],
+            ["Interface designs", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which activity would you choose for a college project?",
+        options: [
+            ["Developing an application", "Programming"],
+            ["Analyzing a dataset", "Data Analytics"],
+            ["Creating a website", "Web Development"],
+            ["Designing an app interface", "UI/UX Design"]
+        ]
+    },
+
+    {
+        question: "Which statement describes your interest best?",
+        options: [
+            ["I like coding and logic", "Programming"],
+            ["I like numbers and analysis", "Data Analytics"],
+            ["I like websites and technology", "Web Development"],
+            ["I like creativity and design", "UI/UX Design"]
+        ]
+    }
+
+];
+
+
+let currentQuestion = 0;
+let answers = [];
+
+
+function loadQuestion() {
+
+    const q = questions[currentQuestion];
+
+    document.getElementById("question").innerText =
+        q.question;
+
+    document.getElementById("progressText").innerText =
+        `Question ${currentQuestion + 1} / ${questions.length}`;
+
+    document.getElementById("progressBar").style.width =
+        ((currentQuestion + 1) / questions.length * 100) + "%";
+
+
+    const optionsDiv =
+        document.getElementById("options");
+
+    optionsDiv.innerHTML = "";
+
+
+    q.options.forEach(function(option) {
+
+        optionsDiv.innerHTML += `
+
+            <label class="option">
+
+                <input
+                    type="radio"
+                    name="answer"
+                    value="${option[1]}">
+
+                ${option[0]}
+
+            </label>
+
+        `;
+
+    });
+
+}
+
+
+function nextQuestion() {
+
+    const selected =
+        document.querySelector(
+            'input[name="answer"]:checked'
+        );
+
+
+    if (!selected) {
+
+        alert("Please select an answer.");
+
+        return;
+
+    }
+
+
+    answers[currentQuestion] =
+        selected.value;
+
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        loadQuestion();
+
+    }
+
+    else {
+
+        calculateResult();
+
+    }
+
+}
+
+
+function calculateResult() {
+
+    let scores = {
+
+        "Programming": 0,
+
+        "Data Analytics": 0,
+
+        "Web Development": 0,
+
+        "UI/UX Design": 0,
+
+        "Cyber Security": 0
+
+    };
+
+
+    answers.forEach(function(answer) {
+
+        if (scores.hasOwnProperty(answer)) {
+
+            scores[answer]++;
+
+        }
+
+    });
+
+
+    let recommendedCareer =
+        Object.keys(scores).reduce(function(a, b) {
+
+            return scores[a] > scores[b] ? a : b;
+
+        });
+
+
+    let totalScore =
+        scores[recommendedCareer];
+
+
+    // Save all answers
+
+    sessionStorage.setItem(
+        "answers",
+        JSON.stringify(answers)
+    );
+
+
+    // Save category-wise scores
+
+    sessionStorage.setItem(
+        "categoryScores",
+        JSON.stringify(scores)
+    );
+
+
+    // Save recommended career
+
+    sessionStorage.setItem(
+        "recommendedCareer",
+        recommendedCareer
+    );
+
+
+    // Save highest score
+
+    sessionStorage.setItem(
+        "score",
+        totalScore
+    );
+
+
+    // Save total questions
+
+    sessionStorage.setItem(
+        "total",
+        questions.length
+    );
+
+
+    // Open result page
+
+    window.location.href = "/result";
+
+}
+
+
+loadQuestion();
+
+</script>
+
+</body>
+
+</html>

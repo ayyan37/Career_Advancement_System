@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Career Roadmap</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 45px auto;
+            padding: 30px;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .header h1 {
+            margin-bottom: 10px;
+        }
+
+        .career {
+            color: #2563eb;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .section {
+            background: white;
+            margin-top: 20px;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+        }
+
+        .section h2 {
+            margin-top: 0;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill {
+            background: #eef4ff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        ul {
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+
+        .step {
+            border-left: 4px solid #2563eb;
+            padding-left: 15px;
+            margin: 18px 0;
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 13px 25px;
+            margin: 5px;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .secondary {
+            background: #e5e7eb;
+            color: #222;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>🚀 Career Roadmap</h1>
+
+        <p>Your recommended career path:</p>
+
+        <div class="career" id="career">
+            Loading...
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>🛠 Recommended Skills</h2>
+
+        <div class="skills" id="skills"></div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>💻 Technologies to Learn</h2>
+
+        <ul id="technologies"></ul>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>📚 Learning Roadmap</h2>
+
+        <div id="roadmap"></div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>💼 Possible Job Roles</h2>
+
+        <ul id="jobs"></ul>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <button
+            class="primary"
+            onclick="window.location.href='/result'">
+
+            Back to Result
+
+        </button>
+
+        <button
+            class="secondary"
+            onclick="window.location.href='/'">
+
+            Home
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const career =
+    sessionStorage.getItem("recommendedCareer")
+    || "Programming";
+
+
+document.getElementById("career").innerText =
+    career;
+
+
+const careerData = {
+
+    "Programming": {
+
+        skills: [
+            "Problem Solving",
+            "Programming Logic",
+            "Data Structures",
+            "Database Basics"
+        ],
+
+        technologies: [
+            "Python",
+            "Java",
+            "SQL",
+            "Git & GitHub"
+        ],
+
+        roadmap: [
+            "Learn programming fundamentals",
+            "Practice problem solving",
+            "Learn databases and SQL",
+            "Build small software projects",
+            "Create a portfolio and apply for internships"
+        ],
+
+        jobs: [
+            "Software Developer",
+            "Python Developer",
+            "Junior Programmer"
+        ]
+
+    },
+
+
+    "Data Analytics": {
+
+        skills: [
+            "Data Analysis",
+            "Statistics",
+            "Excel",
+            "Data Visualization"
+        ],
+
+        technologies: [
+            "Excel",
+            "Python",
+            "Pandas",
+            "Power BI"
+        ],
+
+        roadmap: [
+            "Learn Excel and basic statistics",
+            "Learn Python for data analysis",
+            "Practice with real datasets",
+            "Create dashboards and reports",
+            "Build a data analytics portfolio"
+        ],
+
+        jobs: [
+            "Data Analyst",
+            "Business Analyst",
+            "Junior Data Analyst"
+        ]
+
+    },
+
+
+    "Web Development": {
+
+        skills: [
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "Responsive Design"
+        ],
+
+        technologies: [
+            "HTML5",
+            "CSS3",
+            "JavaScript",
+            "Flask"
+        ],
+
+        roadmap: [
+            "Learn HTML and CSS fundamentals",
+            "Learn JavaScript",
+            "Build responsive websites",
+            "Learn backend development",
+            "Create projects and a portfolio"
+        ],
+
+        jobs: [
+            "Web Developer",
+            "Frontend Developer",
+            "Full Stack Developer"
+        ]
+
+    },
+
+
+    "UI/UX Design": {
+
+        skills: [
+            "Visual Design",
+            "User Research",
+            "Wireframing",
+            "Prototyping"
+        ],
+
+        technologies: [
+            "Figma",
+            "Adobe XD",
+            "Canva",
+            "Design Systems"
+        ],
+
+        roadmap: [
+            "Learn design principles",
+            "Practice wireframing",
+            "Learn Figma",
+            "Create UI/UX case studies",
+            "Build a design portfolio"
+        ],
+
+        jobs: [
+            "UI Designer",
+            "UX Designer",
+            "Product Designer"
+        ]
+
+    },
+
+
+    "Cyber Security": {
+
+        skills: [
+            "Networking",
+            "Security Fundamentals",
+            "Linux",
+            "Problem Solving"
+        ],
+
+        technologies: [
+            "Linux",
+            "Python",
+            "Networking Tools",
+            "Cyber Security Tools"
+        ],
+
+        roadmap: [
+            "Learn computer networking",
+            "Learn Linux basics",
+            "Study security fundamentals",
+            "Practice in legal learning environments",
+            "Build security-related projects"
+        ],
+
+        jobs: [
+            "Security Analyst",
+            "SOC Analyst",
+            "Cyber Security Intern"
+        ]
+
+    }
+
+};
+
+
+const data =
+    careerData[career]
+    || careerData["Programming"];
+
+
+data.skills.forEach(function(skill) {
+
+    document.getElementById("skills").innerHTML +=
+        `<span class="skill">${skill}</span>`;
+
+});
+
+
+data.technologies.forEach(function(tech) {
+
+    document.getElementById("technologies").innerHTML +=
+        `<li>${tech}</li>`;
+
+});
+
+
+data.roadmap.forEach(function(step, index) {
+
+    document.getElementById("roadmap").innerHTML +=
+
+        `<div class="step">
+            <strong>Step ${index + 1}</strong>
+            <p>${step}</p>
+        </div>`;
+
+});
+
+
+data.jobs.forEach(function(job) {
+
+    document.getElementById("jobs").innerHTML +=
+        `<li>${job}</li>`;
+
+});
+
+</script>
+
+</body>
+
+</html>

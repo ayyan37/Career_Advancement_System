@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Career Assessment Result</title>
+
+
+    <style>
+
+        body {
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            background: #f4f7fb;
+
+            color: #222;
+
+        }
+
+
+        .container {
+
+            max-width: 850px;
+
+            margin: 50px auto;
+
+            padding: 35px;
+
+        }
+
+
+        .header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .icon {
+
+            font-size: 48px;
+
+        }
+
+
+        .header h1 {
+
+            margin: 10px 0;
+
+        }
+
+
+        .header p {
+
+            color: #666;
+
+        }
+
+
+        .recommendation {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .recommended-label {
+
+            color: #666;
+
+            font-size: 15px;
+
+        }
+
+
+        .career {
+
+            font-size: 32px;
+
+            font-weight: bold;
+
+            color: #2563eb;
+
+            margin: 12px 0;
+
+        }
+
+
+        .score {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+        }
+
+
+        .percentage {
+
+            color: #666;
+
+            margin-top: 7px;
+
+        }
+
+
+        .analysis {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+
+        }
+
+
+        .analysis h2 {
+
+            margin-top: 0;
+
+        }
+
+
+        .category {
+
+            margin: 22px 0;
+
+        }
+
+
+        .category-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+
+        }
+
+
+        .bar {
+
+            height: 10px;
+
+            background: #e5e7eb;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+        }
+
+
+        .fill {
+
+            height: 100%;
+
+            background: #2563eb;
+
+            border-radius: 10px;
+
+        }
+
+
+        .buttons {
+
+            text-align: center;
+
+            margin-top: 25px;
+
+        }
+
+
+        button {
+
+            padding: 13px 24px;
+
+            margin: 5px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            cursor: pointer;
+
+        }
+
+
+        .primary {
+
+            background: #2563eb;
+
+            color: white;
+
+        }
+
+
+        .secondary {
+
+            background: #e5e7eb;
+
+            color: #222;
+
+        }
+
+
+        button:hover {
+
+            opacity: 0.9;
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <div class="icon">🎯</div>
+
+        <h1>Career Assessment Result</h1>
+
+        <p>
+            Your career recommendation is based on your MCQ performance.
+        </p>
+
+    </div>
+
+
+
+    <div class="recommendation">
+
+        <div class="recommended-label">
+            Recommended Career Area
+        </div>
+
+
+        <div class="career" id="career">
+            Loading...
+        </div>
+
+
+        <div class="score" id="score">
+            Score: --
+        </div>
+
+
+        <div class="percentage" id="percentage">
+            Performance: --
+        </div>
+
+    </div>
+
+
+
+    <div class="analysis">
+
+        <h2>📊 Career Interest Analysis</h2>
+
+        <div id="categories"></div>
+
+    </div>
+
+
+
+    <div class="buttons">
+
+        <button
+            class="primary"
+            onclick="window.location.href='/roadmap'">
+
+            View Career Roadmap
+
+        </button>
+
+
+        <button
+            class="secondary"
+            onclick="window.location.href='/student'">
+
+            Take Test Again
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* -------------------------
+   BASIC RESULT DATA
+-------------------------- */
+
+
+const career =
+    sessionStorage.getItem("recommendedCareer")
+    || "Programming";
+
+
+const score =
+    Number(sessionStorage.getItem("score"))
+    || 0;
+
+
+const total =
+    Number(sessionStorage.getItem("total"))
+    || 15;
+
+
+const percentage =
+    Math.round((score / total) * 100);
+
+
+
+document.getElementById("career").innerText =
+    career;
+
+
+document.getElementById("score").innerText =
+    "Score: " + score + " / " + total;
+
+
+document.getElementById("percentage").innerText =
+    "Performance: " + percentage + "%";
+
+
+
+/* -------------------------
+   CATEGORY SCORES
+-------------------------- */
+
+
+const savedScores =
+    sessionStorage.getItem("categoryScores");
+
+
+let scores;
+
+
+if (savedScores) {
+
+    scores = JSON.parse(savedScores);
+
+}
+
+else {
+
+    scores = {
+
+        "Programming": 0,
+
+        "Data Analytics": 0,
+
+        "Web Development": 0,
+
+        "UI/UX Design": 0,
+
+        "Cyber Security": 0
+
+    };
+
+}
+
+
+
+const categoriesDiv =
+    document.getElementById("categories");
+
+
+categoriesDiv.innerHTML = "";
+
+
+
+/* -------------------------
+   DISPLAY EACH CATEGORY
+-------------------------- */
+
+
+Object.keys(scores).forEach(function(category) {
+
+
+    const categoryScore =
+        Number(scores[category]);
+
+
+    const categoryPercentage =
+        Math.round(
+            (categoryScore / total) * 100
+        );
+
+
+    const categoryHTML = `
+
+        <div class="category">
+
+            <div class="category-header">
+
+                <span>
+                    ${category}
+                </span>
+
+                <span>
+                    ${categoryScore} / ${total}
+                </span>
+
+            </div>
+
+
+            <div class="bar">
+
+                <div
+                    class="fill"
+                    style="width: ${categoryPercentage}%">
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    categoriesDiv.innerHTML +=
+        categoryHTML;
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>
