@@ -10,7 +10,7 @@ app = Flask(
     static_folder="career_static"
 )
 
-# Firebase connection using Render Environment Variable
+# Firebase connection
 firebase_credentials = json.loads(
     os.environ["FIREBASE_CREDENTIALS"]
 )
@@ -53,8 +53,12 @@ def save_result():
     try:
         data = request.get_json()
 
+        print("SAVE RESULT DATA:", data)
+
         ref = db.reference("student_results")
         new_result = ref.push(data)
+
+        print("FIREBASE SAVED:", new_result.key)
 
         return jsonify({
             "success": True,
@@ -62,6 +66,8 @@ def save_result():
         })
 
     except Exception as e:
+        print("FIREBASE ERROR:", repr(e))
+
         return jsonify({
             "success": False,
             "error": str(e)
