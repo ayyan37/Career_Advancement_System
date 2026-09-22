@@ -463,7 +463,6 @@ const questions = [
 
 
 let currentQuestion = 0;
-
 let answers = [];
 
 
@@ -471,14 +470,11 @@ function loadQuestion() {
 
     const q = questions[currentQuestion];
 
-
     document.getElementById("question").innerText =
         q.question;
 
-
     document.getElementById("progressText").innerText =
         `Question ${currentQuestion + 1} / ${questions.length}`;
-
 
     const percentage =
         Math.round(
@@ -486,26 +482,20 @@ function loadQuestion() {
             questions.length) * 100
         );
 
-
     document.getElementById("progressBar").style.width =
         percentage + "%";
-
 
     document.getElementById("progressPercent").innerText =
         percentage + "% Complete";
 
-
     const optionsDiv =
         document.getElementById("options");
 
-
     optionsDiv.innerHTML = "";
-
 
     q.options.forEach(function(option) {
 
         optionsDiv.innerHTML += `
-
             <label class="option">
 
                 <input
@@ -516,7 +506,6 @@ function loadQuestion() {
                 <span>${option[0]}</span>
 
             </label>
-
         `;
 
     });
@@ -531,7 +520,6 @@ function nextQuestion() {
             'input[name="answer"]:checked'
         );
 
-
     if (!selected) {
 
         alert("Please select an answer.");
@@ -539,7 +527,6 @@ function nextQuestion() {
         return;
 
     }
-
 
     answers[currentQuestion] =
         selected.value;
@@ -562,7 +549,7 @@ function nextQuestion() {
 }
 
 
-async function calculateResult() {
+function calculateResult() {
 
     let scores = {
 
@@ -602,41 +589,30 @@ async function calculateResult() {
         scores[recommendedCareer];
 
 
-    const studentName =
-        sessionStorage.getItem("studentName");
-
-
-    const studentCourse =
-        sessionStorage.getItem("studentCourse");
-
-
-    const studentInterest =
-        sessionStorage.getItem("studentInterest");
-
+    /*
+        Save result locally in browser.
+        Firebase is no longer used.
+    */
 
     sessionStorage.setItem(
         "answers",
         JSON.stringify(answers)
     );
 
-
     sessionStorage.setItem(
         "categoryScores",
         JSON.stringify(scores)
     );
-
 
     sessionStorage.setItem(
         "recommendedCareer",
         recommendedCareer
     );
 
-
     sessionStorage.setItem(
         "score",
         totalScore
     );
-
 
     sessionStorage.setItem(
         "total",
@@ -644,77 +620,11 @@ async function calculateResult() {
     );
 
 
-    const resultData = {
+    /*
+        Go directly to result page.
+    */
 
-        name: studentName,
-
-        course: studentCourse,
-
-        interest: studentInterest,
-
-        answers: answers,
-
-        categoryScores: scores,
-
-        recommendedCareer: recommendedCareer,
-
-        score: totalScore,
-
-        totalQuestions: questions.length,
-
-        createdAt: new Date().toISOString()
-
-    };
-
-
-    try {
-
-        const response =
-            await fetch("/save_result", {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify(resultData)
-
-            });
-
-
-        const result =
-            await response.json();
-
-
-        if (!result.success) {
-
-            alert(
-                "Could not save result. Please try again."
-            );
-
-            return;
-
-        }
-
-
-        window.location.href = "/result";
-
-    }
-
-
-    catch (error) {
-
-        console.error(
-            "Firebase error:",
-            error
-        );
-
-        alert(
-            "Database connection failed. Please try again."
-        );
-
-    }
+    window.location.href = "/result";
 
 }
 
