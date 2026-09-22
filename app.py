@@ -22,77 +22,113 @@ firebase_admin.initialize_app(cred, {
 })
 
 
+# ---------------- HOME ----------------
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
+
+# ---------------- STUDENT DETAILS ----------------
 
 @app.route("/student")
 def student():
     return render_template("student.html")
 
 
+# ---------------- TEST ----------------
+
 @app.route("/test")
 def test():
     return render_template("test.html")
 
+
+# ---------------- RESULT ----------------
 
 @app.route("/result")
 def result():
     return render_template("result.html")
 
 
+# ---------------- ROADMAP ----------------
+
 @app.route("/roadmap")
 def roadmap():
     return render_template("roadmap.html")
 
 
-# Save student test result to Firebase
+# ---------------- SAVE RESULT ----------------
+
 @app.route("/save_result", methods=["POST"])
 def save_result():
+
     try:
+
         data = request.get_json()
 
-print("SAVE RESULT DATA:", repr(data))
-        # Make sure the received data is a proper JSON object
+        print("SAVE RESULT DATA:", repr(data))
+
+        # Check received data
         if not isinstance(data, dict):
+
             return jsonify({
                 "success": False,
                 "error": "Invalid result data"
             }), 400
 
+
         # Clean data before sending to Firebase
         def clean_data(value):
+
             if isinstance(value, dict):
+
                 return {
                     str(k): clean_data(v)
                     for k, v in value.items()
                 }
 
+
             if isinstance(value, list):
-                return [clean_data(v) for v in value]
+
+                return [
+                    clean_data(v)
+                    for v in value
+                ]
+
 
             if value is None:
+
                 return ""
 
+
             if isinstance(value, (str, int, float, bool)):
+
                 return value
+
 
             return str(value)
 
+
         clean_result = clean_data(data)
 
+
+        # Save result in Firebase
         ref = db.reference("student_results")
+
         new_result = ref.push(clean_result)
 
+
         print("FIREBASE SAVED:", new_result.key)
+
 
         return jsonify({
             "success": True,
             "id": new_result.key
         })
 
+
     except Exception as e:
+
         print("FIREBASE ERROR:", repr(e))
 
         return jsonify({
@@ -101,5 +137,8 @@ print("SAVE RESULT DATA:", repr(data))
         }), 500
 
 
+# ---------------- RUN APP ----------------
+
 if __name__ == "__main__":
+
     app.run(debug=True)
