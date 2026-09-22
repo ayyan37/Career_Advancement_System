@@ -53,6 +53,7 @@ def save_result():
     try:
         data = request.get_json()
 
+print("SAVE RESULT DATA:", repr(data))
         # Make sure the received data is a proper JSON object
         if not isinstance(data, dict):
             return jsonify({
