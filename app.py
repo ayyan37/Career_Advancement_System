@@ -53,10 +53,36 @@ def save_result():
     try:
         data = request.get_json()
 
-        print("SAVE RESULT DATA:", data)
+        # Make sure the received data is a proper JSON object
+        if not isinstance(data, dict):
+            return jsonify({
+                "success": False,
+                "error": "Invalid result data"
+            }), 400
+
+        # Clean data before sending to Firebase
+        def clean_data(value):
+            if isinstance(value, dict):
+                return {
+                    str(k): clean_data(v)
+                    for k, v in value.items()
+                }
+
+            if isinstance(value, list):
+                return [clean_data(v) for v in value]
+
+            if value is None:
+                return ""
+
+            if isinstance(value, (str, int, float, bool)):
+                return value
+
+            return str(value)
+
+        clean_result = clean_data(data)
 
         ref = db.reference("student_results")
-        new_result = ref.push(data)
+        new_result = ref.push(clean_result)
 
         print("FIREBASE SAVED:", new_result.key)
 
