@@ -10,54 +10,56 @@ app = Flask(
     static_folder="career_static"
 )
 
-# Firebase connection
+# ==============================
+# FIREBASE CONNECTION
+# ==============================
+
 firebase_credentials = json.loads(
     os.environ["FIREBASE_CREDENTIALS"]
 )
 
 cred = credentials.Certificate(firebase_credentials)
 
-firebase_admin.initialize_app(cred, {
-    "databaseURL": "https://career-advancement-system-default-rtdb.asia-southeast1.firebasedatabase.app"
-})
+firebase_admin.initialize_app(
+    cred,
+    {
+        "databaseURL": "https://career-advancement-system-default-rtdb.asia-southeast1.firebasedatabase.app"
+    }
+)
 
 
-# ---------------- HOME ----------------
+# ==============================
+# PAGES
+# ==============================
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# ---------------- STUDENT DETAILS ----------------
-
 @app.route("/student")
 def student():
     return render_template("student.html")
 
-
-# ---------------- TEST ----------------
 
 @app.route("/test")
 def test():
     return render_template("test.html")
 
 
-# ---------------- RESULT ----------------
-
 @app.route("/result")
 def result():
     return render_template("result.html")
 
-
-# ---------------- ROADMAP ----------------
 
 @app.route("/roadmap")
 def roadmap():
     return render_template("roadmap.html")
 
 
-# ---------------- SAVE RESULT ----------------
+# ==============================
+# SAVE TEST RESULT
+# ==============================
 
 @app.route("/save_result", methods=["POST"])
 def save_result():
@@ -68,7 +70,7 @@ def save_result():
 
         print("SAVE RESULT DATA:", repr(data))
 
-        # Check received data
+        # Check data
         if not isinstance(data, dict):
 
             return jsonify({
@@ -77,48 +79,34 @@ def save_result():
             }), 400
 
 
-        # Clean data before sending to Firebase
-        def clean_data(value):
-
-            if isinstance(value, dict):
-
-                return {
-                    str(k): clean_data(v)
-                    for k, v in value.items()
-                }
+        # Convert to clean JSON
+        clean_result = json.loads(
+            json.dumps(
+                data,
+                allow_nan=False
+            )
+        )
 
 
-            if isinstance(value, list):
-
-                return [
-                    clean_data(v)
-                    for v in value
-                ]
+        print("CLEAN RESULT:", repr(clean_result))
 
 
-            if value is None:
-
-                return ""
-
-
-            if isinstance(value, (str, int, float, bool)):
-
-                return value
-
-
-            return str(value)
-
-
-        clean_result = clean_data(data)
-
-
-        # Save result in Firebase
+        # Firebase reference
         ref = db.reference("student_results")
 
-        new_result = ref.push(clean_result)
+
+        # Create new Firebase entry
+        new_result = ref.push()
 
 
-        print("FIREBASE SAVED:", new_result.key)
+        # Save data
+        new_result.set(clean_result)
+
+
+        print(
+            "FIREBASE SAVED:",
+            new_result.key
+        )
 
 
         return jsonify({
@@ -129,7 +117,10 @@ def save_result():
 
     except Exception as e:
 
-        print("FIREBASE ERROR:", repr(e))
+        print(
+            "FIREBASE ERROR:",
+            repr(e)
+        )
 
         return jsonify({
             "success": False,
@@ -137,8 +128,12 @@ def save_result():
         }), 500
 
 
-# ---------------- RUN APP ----------------
+# ==============================
+# RUN APPLICATION
+# ==============================
 
 if __name__ == "__main__":
 
-    app.run(debug=True)
+    app.run(
+        debug=True
+    )
