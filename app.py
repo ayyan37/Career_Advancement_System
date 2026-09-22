@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import firebase_admin
 from firebase_admin import credentials, db
+import os
+import json
 
 app = Flask(
     __name__,
@@ -8,10 +10,12 @@ app = Flask(
     static_folder="career_static"
 )
 
-# Firebase connection
-cred = credentials.Certificate(
-    "career-advancement-system-firebase-adminsdk-fbsvc-58832dd5db.json"
+# Firebase connection using Render Environment Variable
+firebase_credentials = json.loads(
+    os.environ["FIREBASE_CREDENTIALS"]
 )
+
+cred = credentials.Certificate(firebase_credentials)
 
 firebase_admin.initialize_app(cred, {
     "databaseURL": "https://career-advancement-system-default-rtdb.asia-southeast1.firebasedatabase.app"
